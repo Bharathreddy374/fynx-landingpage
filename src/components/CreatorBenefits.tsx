@@ -122,31 +122,6 @@ export const CreatorBenefits = () => {
             ))}
           </motion.div>
         </div>
-
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.0 }}
-          className="text-center mt-20"
-        >
-          <div className="glass-effect p-8 rounded-2xl max-w-2xl mx-auto">
-            <h3 className="font-heading text-2xl font-bold text-foreground mb-4">
-              Start Earning Today
-            </h3>
-            <p className="font-body text-muted-foreground mb-6">
-              Join our exclusive beta program and be among the first creators to access Fynxx's revolutionary platform.
-            </p>
-            <motion.button
-              onClick={() => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' })}
-              className="btn-glow font-body font-semibold px-8 py-3 text-foreground hover:text-background"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Join Beta Program
-            </motion.button>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

@@ -141,6 +141,22 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
+ .celebration-toast {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 2px solid #ffd700;
+  color: white;
+  animation: celebrationPulse 2s ease-in-out;
+}
+
+.celebration-toast [data-title] {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+@keyframes celebrationPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
 
   .card-animated:hover {
     transform: translateY(-8px);
