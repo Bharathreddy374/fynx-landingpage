@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import fynxxLogo from '@/assets/fynxx-logo.png';
+import fynxxLogo from '@/assets/fynxxlogo.png';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,10 +40,10 @@ export const Navbar = () => {
             <img 
               src={fynxxLogo} 
               alt="Fynxx" 
-              className="h-8 w-auto filter brightness-0 invert"
+              className="h-8 w-auto filter"
             />
             <span className="font-display text-2xl font-bold text-foreground">
-              Fynxx
+              FYNX
             </span>
           </motion.div>
 

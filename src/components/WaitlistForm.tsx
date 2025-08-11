@@ -8,6 +8,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 
+export interface WaitlistSubmission {
+  name: string;
+  email: string;
+  platform: 'instagram' | 'youtube' | 'both' | '';
+  instagram_username?: string | null;
+  instagram_followers?: string | null;
+  youtube_channel_name?: string | null;
+  youtube_subscribers?: string | null;
+}
+
 export const WaitlistForm = () => {
   const { ref, inView } = useInView({
     threshold: 0.3,
@@ -18,15 +28,16 @@ export const WaitlistForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<WaitlistSubmission>({
     name: '',
     email: '',
     platform: '',
-    instagramFollowers: '',
-    youtubeSubscribers: '',
-    instagramUsername: '', // New field for Instagram ID
-    youtubeChannelName: ''  // New field for YouTube channel
+    instagram_followers: '',
+    youtube_subscribers: '',
+    instagram_username: '',
+    youtube_channel_name: ''
   });
+  const [waitlistCount, setWaitlistCount] = useState(0);
 
   useEffect(() => {
     if (showForm) {
@@ -46,14 +57,14 @@ export const WaitlistForm = () => {
     if (formData.platform === 'instagram') {
       setFormData(prev => ({ 
         ...prev, 
-        youtubeSubscribers: '',
-        youtubeChannelName: ''
+        youtube_subscribers: '',
+        youtube_channel_name: ''
       }));
     } else if (formData.platform === 'youtube') {
       setFormData(prev => ({ 
         ...prev, 
-        instagramFollowers: '',
-        instagramUsername: ''
+        instagram_followers: '',
+        instagram_username: ''
       }));
     }
   }, [formData.platform]);
@@ -71,7 +82,7 @@ export const WaitlistForm = () => {
     }
 
     // Validate Instagram fields
-    if (formData.platform === 'instagram' && (!formData.instagramFollowers || !formData.instagramUsername)) {
+    if ((formData.platform === 'instagram' || formData.platform === 'both') && (!formData.instagram_followers || !formData.instagram_username)) {
       toast({
         title: "Instagram details required",
         description: "Please enter your Instagram username and follower count.",
@@ -81,7 +92,7 @@ export const WaitlistForm = () => {
     }
 
     // Validate YouTube fields
-    if (formData.platform === 'youtube' && (!formData.youtubeSubscribers || !formData.youtubeChannelName)) {
+    if ((formData.platform === 'youtube' || formData.platform === 'both') && (!formData.youtube_subscribers || !formData.youtube_channel_name)) {
       toast({
         title: "YouTube details required",
         description: "Please enter your YouTube channel name and subscriber count.",
@@ -90,73 +101,87 @@ export const WaitlistForm = () => {
       return;
     }
 
-    // Validate both platforms
-    if (formData.platform === 'both' && (
-      !formData.instagramFollowers || !formData.instagramUsername ||
-      !formData.youtubeSubscribers || !formData.youtubeChannelName
-    )) {
-      toast({
-        title: "All platform details required",
-        description: "Please fill in all Instagram and YouTube details.",
-        variant: "destructive"
-      });
-      return;
-    }
-
     setIsSubmitting(true);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      const response = await fetch('http://localhost:3001/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (response.status === 409) {
+          toast({
+            title: "You're already on the list!",
+            description: errorData.message,
+            variant: "default"
+          });
+          // Don't throw an error, just inform the user and stop
+          return; 
+        }
+        throw new Error(errorData.message || 'An error occurred');
+      }
+
+      // Fetch the new total count
+      const countResponse = await fetch('http://localhost:3001/api/waitlist/count');
+      const countData = await countResponse.json();
+      if (countData.success) {
+        setWaitlistCount(countData.count);
+      }
+
       toast({
-      title: "🚀 Processing your application...",
-      description: "Adding you to our exclusive creator waitlist!",
-      duration: 3000
-    });
+        title: "🚀 Processing your application...",
+        description: "Adding you to our exclusive creator waitlist!",
+        duration: 3000
+      });
 
       await new Promise(resolve => setTimeout(resolve, 1000));
       setIsSubmitted(true);
       confetti({
-  particleCount: 100,
-  spread: 70,
-  origin: { y: 0.6 }
-});
-setTimeout(() => {
-  confetti({
-    particleCount: 50,
-    spread: 60,
-    origin: { x: 0.25, y: 0.6 }
-  });
-}, 200);
-setTimeout(() => {
-  confetti({
-    particleCount: 50,
-    spread: 60,
-    origin: { x: 0.75, y: 0.6 }
-  });
-}, 400);
-      toast({
-      title: "🎉 You're In! Welcome to Fynxx!",
-      description: `${formData.name}, you're now part of an exclusive group of ${
-        formData.platform === 'instagram' ? 'Instagram creators' : 
-        formData.platform === 'youtube' ? 'YouTube creators' : 
-        'multi-platform creators'
-      } ready to revolutionize content monetization!`,
-      duration: 10000
-    });
-
-    // Follow-up toast with next steps
-    setTimeout(() => {
-      toast({
-        title: "📧 Check your email!",
-        description: "We've sent a welcome message with exclusive creator tips and beta updates.",
-        duration: 6000
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
       });
-    }, 2000);
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          spread: 60,
+          origin: { x: 0.25, y: 0.6 }
+        });
+      }, 200);
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          spread: 60,
+          origin: { x: 0.75, y: 0.6 }
+        });
+      }, 400);
+      toast({
+        title: "🎉 You're In! Welcome to FYNX!",
+        description: `${formData.name}, you're now part of an exclusive group of ${
+          formData.platform === 'instagram' ? 'Instagram creators' : 
+          formData.platform === 'youtube' ? 'YouTube creators' : 
+          'multi-platform creators'
+        } ready to revolutionize content monetization!`,
+        duration: 10000
+      });
+
+      // Follow-up toast with next steps
+      setTimeout(() => {
+        toast({
+          title: "📧 Check your email!",
+          description: "We've sent a welcome message with exclusive creator tips and beta updates.",
+          duration: 6000
+        });
+      }, 2000);
     } catch (error) {
       toast({
         title: "Something went wrong",
-        description: "Please try again later or contact us directly.",
+        description: (error as Error).message || "Please try again later or contact us directly.",
         variant: "destructive"
       });
     } finally {
@@ -164,12 +189,12 @@ setTimeout(() => {
     }
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof WaitlistSubmission, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   // Format username input (remove @ if user includes it)
-  const handleUsernameInput = (field: string, value: string) => {
+  const handleUsernameInput = (field: 'instagram_username' | 'youtube_channel_name', value: string) => {
     const cleanValue = value.replace('@', '');
     handleInputChange(field, cleanValue);
   };
@@ -183,7 +208,7 @@ setTimeout(() => {
     return value;
   };
 
-  const handleNumberInput = (field: string, value: string) => {
+  const handleNumberInput = (field: 'instagram_followers' | 'youtube_subscribers', value: string) => {
     const cleanValue = value.replace(/[^0-9,]/g, '');
     handleInputChange(field, cleanValue);
   };
@@ -202,7 +227,11 @@ setTimeout(() => {
         {(formData.platform === 'instagram' || formData.platform === 'both') && (
           <div className="space-y-4 p-4 glass-effect rounded-lg">
             <div className="flex items-center space-x-2 mb-3">
-              <div className="text-xl">📸</div>
+              <div className="text-xl">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </div>
               <h4 className="font-heading font-semibold text-foreground">Instagram Details</h4>
             </div>
             
@@ -218,8 +247,8 @@ setTimeout(() => {
                   <Input
                     type="text"
                     placeholder="yourhandle"
-                    value={formData.instagramUsername}
-                    onChange={(e) => handleUsernameInput('instagramUsername', e.target.value)}
+                    value={formData.instagram_username || ''}
+                    onChange={(e) => handleUsernameInput('instagram_username', e.target.value)}
                     className="bg-input border-border text-foreground placeholder:text-muted-foreground pl-8"
                     required={formData.platform === 'instagram' || formData.platform === 'both'}
                   />
@@ -236,9 +265,9 @@ setTimeout(() => {
                 <Input
                   type="text"
                   placeholder="e.g., 10,500"
-                  value={formData.instagramFollowers}
-                  onChange={(e) => handleNumberInput('instagramFollowers', e.target.value)}
-                  onBlur={(e) => handleInputChange('instagramFollowers', formatNumber(e.target.value))}
+                  value={formData.instagram_followers || ''}
+                  onChange={(e) => handleNumberInput('instagram_followers', e.target.value)}
+                  onBlur={(e) => handleInputChange('instagram_followers', formatNumber(e.target.value))}
                   className="bg-input border-border text-foreground placeholder:text-muted-foreground"
                   required={formData.platform === 'instagram' || formData.platform === 'both'}
                 />
@@ -254,7 +283,12 @@ setTimeout(() => {
         {(formData.platform === 'youtube' || formData.platform === 'both') && (
           <div className="space-y-4 p-4 glass-effect rounded-lg">
             <div className="flex items-center space-x-2 mb-3">
-              <div className="text-xl">📺</div>
+              <div className="text-xl">
+                <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+
+              </div>
               <h4 className="font-heading font-semibold text-foreground">YouTube Details</h4>
             </div>
             
@@ -266,8 +300,8 @@ setTimeout(() => {
                 <Input
                   type="text"
                   placeholder="Your Channel Name"
-                  value={formData.youtubeChannelName}
-                  onChange={(e) => handleInputChange('youtubeChannelName', e.target.value)}
+                  value={formData.youtube_channel_name || ''}
+                  onChange={(e) => handleInputChange('youtube_channel_name', e.target.value)}
                   className="bg-input border-border text-foreground placeholder:text-muted-foreground"
                   required={formData.platform === 'youtube' || formData.platform === 'both'}
                 />
@@ -283,9 +317,9 @@ setTimeout(() => {
                 <Input
                   type="text"
                   placeholder="e.g., 2,500"
-                  value={formData.youtubeSubscribers}
-                  onChange={(e) => handleNumberInput('youtubeSubscribers', e.target.value)}
-                  onBlur={(e) => handleInputChange('youtubeSubscribers', formatNumber(e.target.value))}
+                  value={formData.youtube_subscribers || ''}
+                  onChange={(e) => handleNumberInput('youtube_subscribers', e.target.value)}
+                  onBlur={(e) => handleInputChange('youtube_subscribers', formatNumber(e.target.value))}
                   className="bg-input border-border text-foreground placeholder:text-muted-foreground"
                   required={formData.platform === 'youtube' || formData.platform === 'both'}
                 />
@@ -316,17 +350,17 @@ setTimeout(() => {
               Welcome to the Revolution, {formData.name}!
             </h2>
             <p className="font-body text-lg text-muted-foreground mb-6">
-              You're now on the Fynxx waitlist with {
+              You're now on the FYNX waitlist with {
                 formData.platform === 'both' 
-                  ? `${formData.instagramFollowers} Instagram followers and ${formData.youtubeSubscribers} YouTube subscribers`
+                  ? `${formData.instagram_followers} Instagram followers and ${formData.youtube_subscribers} YouTube subscribers`
                   : formData.platform === 'instagram'
-                  ? `${formData.instagramFollowers} Instagram followers`
-                  : `${formData.youtubeSubscribers} YouTube subscribers`
+                  ? `${formData.instagram_followers} Instagram followers`
+                  : `${formData.youtube_subscribers} YouTube subscribers`
               }. We'll send you early access when we launch.
             </p>
             <div className="glass-effect p-4 rounded-lg mb-6">
               <p className="font-body text-sm text-muted-foreground">
-                🔥 You're creator #{Math.floor(Math.random() * 1000) + 1} on our exclusive waitlist!
+                🔥 You're creator #{waitlistCount} on our exclusive waitlist!
               </p>
             </div>
             <p className="font-body text-sm text-muted-foreground">
@@ -338,7 +372,6 @@ setTimeout(() => {
     </section>
   );
 }
-
 
   return (
     <section id="waitlist" ref={ref} className="py-24 relative overflow-hidden">
@@ -355,7 +388,7 @@ setTimeout(() => {
             Join the Waitlist
           </h2>
           <p className="font-body text-xl text-muted-foreground max-w-2xl mx-auto">
-            Be among the first creators to experience Fynxx. Limited spots available for our exclusive beta launch.
+            Be among the first creators to experience FYNX. Limited spots available for our exclusive beta launch.
           </p>
           
           {!showForm && (
@@ -370,7 +403,7 @@ setTimeout(() => {
                   Start Earning Today
                 </h3>
                 <p className="font-body text-muted-foreground mb-6">
-                  Join our exclusive beta program and be among the first creators to access Fynxx's revolutionary platform.
+                  Join our exclusive beta program and be among the first creators to access FYNX's revolutionary platform.
                 </p>
                 <motion.button
                   onClick={handleCtaClick}
@@ -430,7 +463,7 @@ setTimeout(() => {
                   <label className="font-body text-sm font-medium text-foreground mb-2 block">
                     Primary Platform *
                   </label>
-                  <Select onValueChange={(value) => handleInputChange('platform', value)}>
+                  <Select onValueChange={(value) => handleInputChange('platform', value as 'instagram' | 'youtube' | 'both')}>
                     <SelectTrigger className="bg-input border-border text-foreground">
                       <SelectValue placeholder="Select your platform" />
                     </SelectTrigger>
@@ -463,7 +496,7 @@ setTimeout(() => {
                 </div>
 
                 <p className="font-body text-xs text-muted-foreground text-center">
-                  By joining, you agree to receive updates about Fynxx. Unsubscribe anytime.
+                  By joining, you agree to receive updates about FYNX. Unsubscribe anytime.
                 </p>
               </form>
             </Card>
@@ -478,7 +511,7 @@ setTimeout(() => {
             className="grid md:grid-cols-3 gap-6 mt-12"
           >
             {[
-              { icon: '⚡', title: 'Early Access', desc: 'Be first to use Fynxx' },
+              { icon: '⚡', title: 'Early Access', desc: 'Be first to use FYNX' },
               { icon: '🎁', title: 'Exclusive Perks', desc: 'Special launch bonuses' },
               { icon: '💎', title: 'VIP Support', desc: 'Priority customer service' }
             ].map((benefit, index) => (

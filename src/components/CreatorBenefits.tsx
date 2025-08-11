@@ -57,7 +57,7 @@ export const CreatorBenefits = () => {
           >
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-8">
               Why Creators Relay On{' '}
-              <span className="gradient-text">Fynxx</span>
+              <span className="gradient-text">FYNX</span>
             </h2>
             
             <p className="font-body text-xl text-muted-foreground mb-12 leading-relaxed">

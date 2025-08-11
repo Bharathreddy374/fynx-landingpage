@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import fynxxLogo from '@/assets/fynxx-logo.png';
+import fynxxLogo from "../assets/fynxxlogo.png";
 
 export const Footer = () => {
   const { ref, inView } = useInView({
@@ -27,10 +27,10 @@ export const Footer = () => {
               <img 
                 src={fynxxLogo} 
                 alt="Fynxx" 
-                className="h-8 w-auto filter brightness-0 invert"
+                className="h-8 w-auto filter"
               />
               <span className="font-display text-2xl font-bold text-foreground">
-                Fynxx
+                FYNX
               </span>
             </div>
             <p className="font-body text-muted-foreground mb-6 max-w-md leading-relaxed">
@@ -41,7 +41,7 @@ export const Footer = () => {
             {/* Social Links */}
             <div className="flex space-x-4">
               <motion.a
-                href="https://instagram.com/fynxx"
+                href="https://instagram.com/getfynx"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center text-foreground hover:text-background transition-colors duration-300"
@@ -54,7 +54,7 @@ export const Footer = () => {
               </motion.a>
               
               <motion.a
-                href="https://youtube.com/@fynxx"
+                href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center text-foreground hover:text-background transition-colors duration-300"
@@ -95,15 +95,15 @@ export const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <a 
-                  href="mailto:contact@fynxx.in"
+                  href="mailto:team@getfynxx.in"
                   className="font-body text-muted-foreground hover:text-foreground transition-colors duration-300"
                 >
-                  contact@fynxx.in
+                  team@getfynxx.in
                 </a>
               </li>
               <li>
                 <span className="font-body text-muted-foreground">
-                  Beta launching Q2 2024
+                  Beta launching Q2 2025
                 </span>
               </li>
             </ul>
@@ -118,7 +118,7 @@ export const Footer = () => {
           className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center"
         >
           <p className="font-body text-sm text-muted-foreground mb-4 md:mb-0">
-            © {currentYear} Fynxx. All rights reserved.
+            © {currentYear} FYNX. All rights reserved.
           </p>
           
           <div className="flex space-x-6">

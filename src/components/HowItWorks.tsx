@@ -39,7 +39,7 @@ const HowItWorks = () => {
             How It Works
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto subheading">
-            Join thousands of creators already earning with Fynxx's simple three-step process
+            Join thousands of creators already earning with FYNX's simple three-step process
           </p>
         </motion.div>
 
@@ -87,7 +87,7 @@ const HowItWorks = () => {
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img
                 src={howItWorksImage}
-                alt="Creator working with Fynxx"
+                alt="Creator working with FYNX"
                 className="w-full h-[600px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />

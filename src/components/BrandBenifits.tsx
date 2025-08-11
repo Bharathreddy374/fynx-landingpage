@@ -7,26 +7,26 @@ import { TrendingUp, Shield, Clock, Users } from 'lucide-react';
 const benefits = [
   {
     icon: TrendingUp,
-    title: "Higher Earnings",
-    description: "Earn 2-5x more than traditional affiliate marketing with our premium brand partnerships.",
+    title: "You Pay Only for Results",
+    description: "Rewards go out only after someone buys and posts — no wasted marketing budget.",
     metric: "Average 3.2x increase"
   },
   {
     icon: Shield,
-    title: "Verified Brands",
-    description: "Work exclusively with vetted, premium brands that align with your values and audience.",
-    metric: "100+ Partner Brands"
+    title: "Free Social Content for Your Brand",
+    description: "Customers create authentic posts you can reuse endlessly.",
+    metric: "1K+ Creator Partners"
   },
   {
     icon: Clock,
-    title: "Instant Payouts",
-    description: "Get paid immediately when your content drives results. No waiting for monthly cycles.",
-    metric: "Same-day payments"
+    title: "Reach People Who Actually Care",
+    description: "Real customer posts reach friends and followers, not random viewers.",
+    metric: ""
   },
   {
     icon: Users,
-    title: "Community Support",
-    description: "Join an exclusive community of successful creators sharing strategies and tips.",
+    title: "Keeps Customers Coming Back",
+    description: "Rewards turn one-time shoppers into loyal repeat buyers.",
     metric: "10,000+ Members"
   }
 ];
@@ -43,10 +43,11 @@ const BrandBenefits = () => {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-bold mb-6 glow-text" style={{ fontFamily: 'var(--font-heading)' }}>
-            Creator Benefits
+            Why brands relay on Fynx
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto subheading">
-            Why top micro-influencers choose Fynxx to monetize their content and grow their income
+            Real People, Real Recommendations
+Instead of fake ads, your customers genuinely talk about your brand on their own social media.
           </p>
         </motion.div>
 
@@ -101,7 +102,7 @@ const BrandBenefits = () => {
         </div>
 
         {/* Stats Section */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -128,10 +129,10 @@ const BrandBenefits = () => {
               <div className="text-sm text-muted-foreground subheading">{stat.label}</div>
             </motion.div>
           ))}
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
 };
 
-export default BrandBenefits;
+export default BrandBenefits;

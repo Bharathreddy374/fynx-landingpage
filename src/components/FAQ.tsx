@@ -4,15 +4,15 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 const faqs = [
   {
-    question: "What makes Fynxx different from other influencer platforms?",
-    answer: "Fynxx focuses specifically on micro-influencers and provides instant cashback rewards rather than traditional payment models. We emphasize authentic partnerships and give creators complete creative control over their content."
+    question: "What makes FYNX different from other influencer platforms?",
+    answer: "FYNX focuses specifically on micro-influencers and provides instant cashback rewards rather than traditional payment models. We emphasize authentic partnerships and give creators complete creative control over their content."
   },
   {
-    question: "How much can I earn with Fynxx?",
+    question: "How much can I earn with FYNX?",
     answer: "Earnings vary based on your engagement rates, follower count, and the brands you partner with. Our creators typically earn 5-15% cashback on brand partnerships, with top performers earning even more through bonus programs."
   },
   {
-    question: "What are the requirements to join Fynxx?",
+    question: "What are the requirements to join FYNX?",
     answer: "We welcome micro-influencers with authentic engagement on Instagram or YouTube. While there's no strict follower minimum, we look for creators who produce quality content and have genuine audience interaction."
   },
   {
@@ -24,7 +24,7 @@ const faqs = [
     answer: "Absolutely! You have complete control over which brand partnerships you accept. We provide detailed brand profiles so you can choose partnerships that align with your values and aesthetic."
   },
   {
-    question: "When will Fynxx be available?",
+    question: "When will FYNX be available?",
     answer: "We're currently in beta development and expect to launch publicly in Q2 2024. Waitlist members will receive early access and exclusive launch perks."
   }
 ];
@@ -50,7 +50,7 @@ export const FAQ = () => {
             Frequently Asked Questions
           </h2>
           <p className="font-body text-xl text-muted-foreground">
-            Everything you need to know about Fynxx and our creator program
+            Everything you need to know about FYNX and our creator program
           </p>
         </motion.div>
 
@@ -97,7 +97,7 @@ export const FAQ = () => {
               Our team is here to help. Reach out and we'll get back to you within 24 hours.
             </p>
             <a 
-              href="mailto:contact@fynxx.in"
+              href="mailto:team@getfynxx.in"
               className="btn-glow inline-block font-body font-semibold px-8 py-3 text-foreground hover:text-background rounded-lg"
             >
               Contact Support
