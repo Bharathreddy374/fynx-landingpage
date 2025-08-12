@@ -7,10 +7,11 @@ dotenv.config();
 
 const app = express();
 const port = 3001;
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:8080' // Allow your Vite dev server to connect
+  origin: frontendUrl // Allow your Vercel frontend to connect
 }));
 
 
