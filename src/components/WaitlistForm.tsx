@@ -41,6 +41,7 @@ export const WaitlistForm = () => {
     youtube_channel_name: ''
   });
   const [waitlistCount, setWaitlistCount] = useState(0);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (showForm) {
@@ -107,10 +108,9 @@ export const WaitlistForm = () => {
     setIsSubmitting(true);
     
     try {
-const apiUrl = import.meta.env.VITE_API_URL;
-const response = await fetch(`${apiUrl}/api/waitlist`, {
+          const response = await fetch(`${apiUrl}/api/waitlist`, {
           method: 'POST',
-        headers: {
+          headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
@@ -131,7 +131,7 @@ const response = await fetch(`${apiUrl}/api/waitlist`, {
       }
 
       // Fetch the new total count
-      const countResponse = await fetch('http://localhost:3001/api/waitlist/count');
+      const countResponse = await fetch(`${apiUrl}/api/waitlist/count`);
       const countData = await countResponse.json();
       if (countData.success) {
         setWaitlistCount(countData.count);
