@@ -410,8 +410,7 @@ export const WaitlistForm = () => {
                 </p>
                 <motion.button
                   onClick={handleCtaClick}
-                  className="btn-glow font-body font-semibold px-8 py-3 text-foreground hover:text-background"
-                  whileHover={{ scale: 1.05 }}
+className="btn-glow font-body font-semibold px-8 py-3 text-foreground hover:text-blue-500 transition-colors duration-200 animate-zoom-in-out"                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   Join Beta Program

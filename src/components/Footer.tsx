@@ -44,7 +44,9 @@ export const Footer = () => {
                 href="https://instagram.com/getfynx"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center text-foreground hover:text-background transition-colors duration-300"
+                className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center text-foreground 
+           hover:text-white hover:bg-gradient-to-br from-purple-600 via-pink-600 to-yellow-500 
+           transition-colors duration-300"
                 whileHover={{ y: -2, scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -57,7 +59,7 @@ export const Footer = () => {
                 href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center text-foreground hover:text-background transition-colors duration-300"
+                className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center text-foreground hover:text-red-600 transition-colors duration-300"
                 whileHover={{ y: -2, scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

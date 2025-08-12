@@ -111,7 +111,7 @@ export const Navbar = () => {
 
               <Button
                 onClick={() => scrollToSection('waitlist')}
-                className="btn-glow font-body font-semibold px-6 py-2 text-foreground hover:text-background"
+                className="btn-glow font-body font-semibold px-6 py-2 text-foreground hover:text-blue-800 transition-colors duration-300"
               >
                 Join Waitlist
               </Button>

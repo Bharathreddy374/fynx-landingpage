@@ -98,7 +98,7 @@ export const FAQ = () => {
             </p>
             <a 
               href="mailto:team@getfynxx.in"
-              className="btn-glow inline-block font-body font-semibold px-8 py-3 text-foreground hover:text-background rounded-lg"
+              className="btn-glow inline-block font-body font-semibold px-8 py-3 text-foreground hover:text-blue-800 rounded-lg"
             >
               Contact Support
             </a>

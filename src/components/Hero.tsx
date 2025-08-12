@@ -79,7 +79,7 @@ export const Hero = () => {
             <Button
               onClick={scrollToWaitlist}
               size="lg"
-              className="btn-glow loop-border font-body font-bold px-8 py-4 text-lg text-foreground hover:text-background animate-glow-pulse"
+              className="btn-glow font-body font-bold px-8 py-4 text-lg text-foreground hover:text-blue-800 animate-glow-pulse shadow-2xl transition-all duration-300"
             >
               Join the Revolution
             </Button>
