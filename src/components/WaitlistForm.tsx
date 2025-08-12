@@ -26,7 +26,7 @@ export const WaitlistForm = () => {
     threshold: 0.3,
     triggerOnce: true
   });
-
+  // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -107,8 +107,9 @@ export const WaitlistForm = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('http://localhost:3001/api/waitlist', {
-        method: 'POST',
+const apiUrl = import.meta.env.VITE_API_URL;
+const response = await fetch(`${apiUrl}/api/waitlist`, {
+          method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
