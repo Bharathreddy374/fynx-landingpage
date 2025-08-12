@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from './ui/card';
 import { Search, Edit3, DollarSign } from 'lucide-react';
 import howItWorksImage from '@/assets/how-it-works.jpg';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const steps = [
   {
@@ -25,6 +26,8 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const isMobile = useIsMobile();
+
   return (
     <section className="py-24 px-6 bg-secondary/30">
       <div className="max-w-7xl mx-auto">
@@ -76,46 +79,48 @@ const HowItWorks = () => {
             ))}
           </div>
 
-          {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img
-                src={howItWorksImage}
-                alt="Creator working with FYNX"
-                className="w-full h-[600px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-              
-              {/* Floating Stats */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                viewport={{ once: true }}
-                className="absolute top-6 right-6 bg-card/90 backdrop-blur-lg border border-border rounded-2xl p-4"
-              >
-                <div className="text-2xl font-bold text-green-400">+247%</div>
-                <div className="text-sm text-muted-foreground">Avg. Earnings</div>
-              </motion.div>
+          {/* Image - Conditionally render for desktop only */}
+          {!isMobile && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <img
+                  src={howItWorksImage}
+                  alt="Creator working with FYNX"
+                  className="w-full h-[600px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+                
+                {/* Floating Stats */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  className="absolute top-6 right-6 bg-card/90 backdrop-blur-lg border border-border rounded-2xl p-4"
+                >
+                  <div className="text-2xl font-bold text-green-400">+247%</div>
+                  <div className="text-sm text-muted-foreground">Avg. Earnings</div>
+                </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                viewport={{ once: true }}
-                className="absolute bottom-6 left-6 bg-card/90 backdrop-blur-lg border border-border rounded-2xl p-4"
-              >
-                <div className="text-2xl font-bold text-blue-400">10k+</div>
-                <div className="text-sm text-muted-foreground">Active Creators</div>
-              </motion.div>
-            </div>
-          </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  viewport={{ once: true }}
+                  className="absolute bottom-6 left-6 bg-card/90 backdrop-blur-lg border border-border rounded-2xl p-4"
+                >
+                  <div className="text-2xl font-bold text-blue-400">10k+</div>
+                  <div className="text-sm text-muted-foreground">Active Creators</div>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
     </section>

@@ -62,7 +62,7 @@
 
 @layer components {
   /* Custom Cursor */
-  .custom-cursor {
+  /* .custom-cursor {
     position: fixed;
     width: 20px;
     height: 20px;
@@ -78,7 +78,7 @@
     transform: scale(1.5);
     background: hsl(var(--foreground) / 0.1);
     box-shadow: var(--glow-intensity);
-  }
+  } */
 
   /* Glow Button Effects */
   .btn-glow {

@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useIsMobile } from "@/hooks/use-mobile";
+
 
 export interface WaitlistSubmission {
   name: string;
@@ -19,6 +21,7 @@ export interface WaitlistSubmission {
 }
 
 export const WaitlistForm = () => {
+  const isMobile = useIsMobile();
   const { ref, inView } = useInView({
     threshold: 0.3,
     triggerOnce: true
@@ -235,7 +238,7 @@ export const WaitlistForm = () => {
               <h4 className="font-heading font-semibold text-foreground">Instagram Details</h4>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="font-body text-sm font-medium text-foreground mb-2 block">
                   Instagram Username *
@@ -292,7 +295,7 @@ export const WaitlistForm = () => {
               <h4 className="font-heading font-semibold text-foreground">YouTube Details</h4>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="font-body text-sm font-medium text-foreground mb-2 block">
                   YouTube Channel Name *
@@ -344,7 +347,7 @@ export const WaitlistForm = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
         >
-          <Card className="card-animated p-12">
+          <Card className="card-animated p-8 md:p-12">
             <div className="text-6xl mb-6">🎉</div>
             <h2 className="font-heading text-3xl font-bold text-foreground mb-4">
               Welcome to the Revolution, {formData.name}!
@@ -425,10 +428,10 @@ export const WaitlistForm = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="max-w-3xl mx-auto"
           >
-            <Card className="card-animated p-8">
+            <Card className="card-animated p-6 md:p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Basic Info */}
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="font-body text-sm font-medium text-foreground mb-2 block">
                       Full Name *
@@ -485,7 +488,7 @@ export const WaitlistForm = () => {
                     className="w-full btn-glow font-body font-bold py-4 text-lg text-foreground hover:text-background disabled:opacity-50"
                   >
                     {isSubmitting ? (
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center justify-center space-x-2">
                         <div className="w-4 h-4 border-2 border-foreground border-t-transparent rounded-full animate-spin" />
                         <span>Joining Waitlist...</span>
                       </div>
@@ -508,12 +511,12 @@ export const WaitlistForm = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="grid md:grid-cols-3 gap-6 mt-12"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12"
           >
             {[
               { icon: '⚡', title: 'Early Access', desc: 'Be first to use FYNX' },
               { icon: '🎁', title: 'Exclusive Perks', desc: 'Special launch bonuses' },
-              { icon: '💎', title: 'VIP Support', desc: 'Priority customer service' }
+              { icon: '�', title: 'VIP Support', desc: 'Priority customer service' }
             ].map((benefit, index) => (
               <div key={index} className="glass-effect p-6 rounded-lg text-center">
                 <div className="text-3xl mb-3">{benefit.icon}</div>

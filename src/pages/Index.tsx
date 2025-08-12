@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { CustomCursor } from '@/components/CustomCursor';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { CreatorBenefits } from '@/components/CreatorBenefits';
@@ -15,7 +14,6 @@ const Index = () => {
     document.documentElement.classList.add('dark');
     
     // Hide default cursor
-    document.body.style.cursor = 'none';
     
     return () => {
       document.body.style.cursor = 'auto';
@@ -25,7 +23,6 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Custom Cursor */}
-      <CustomCursor />
       
       {/* Navigation */}
       <Navbar />

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Card } from '@/components/ui/card';
 import creatorBenefits from '@/assets/creator-benefits.jpg';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const benefits = [
   {
@@ -31,6 +32,7 @@ const benefits = [
 ];
 
 export const CreatorBenefits = () => {
+  const isMobile = useIsMobile();
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true
@@ -40,10 +42,12 @@ export const CreatorBenefits = () => {
     <section id="benefits" ref={ref} className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: `url(${creatorBenefits})` }}
-        />
+        {!isMobile && (
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-20"
+            style={{ backgroundImage: `url(${creatorBenefits})` }}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-primary" />
       </div>
 
@@ -56,7 +60,7 @@ export const CreatorBenefits = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-8">
-              Why Creators Relay On{' '}
+              Why Creators Rely On{' '}
               <span className="gradient-text">FYNX</span>
             </h2>
             
@@ -93,34 +97,36 @@ export const CreatorBenefits = () => {
             </div>
           </motion.div>
 
-          {/* Benefits Cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="grid sm:grid-cols-2 gap-6"
-          >
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                whileHover={{ y: -5, scale: 1.02 }}
-                className="relative animated-border"
-              >
-                <Card className="card-animated p-6 text-center h-full">
-                  <div className="text-4xl mb-4">{benefit.icon}</div>
-                  <h4 className="font-heading text-lg font-semibold text-foreground mb-2">
-                    {benefit.title}
-                  </h4>
-                  <div className="text-2xl font-bold text-accent-foreground">
-                    {benefit.stat}
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+          {/* Benefits Cards - Conditionally render for desktop only */}
+          {!isMobile && (
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="grid sm:grid-cols-2 gap-6"
+            >
+              {benefits.map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                  transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="relative animated-border"
+                >
+                  <Card className="card-animated p-6 text-center h-full">
+                    <div className="text-4xl mb-4">{benefit.icon}</div>
+                    <h4 className="font-heading text-lg font-semibold text-foreground mb-2">
+                      {benefit.title}
+                    </h4>
+                    <div className="text-2xl font-bold text-accent-foreground">
+                      {benefit.stat}
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </div>
       </div>
     </section>
