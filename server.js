@@ -7,12 +7,24 @@ dotenv.config();
 
 const app = express();
 const port = 3001;
-const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
+const allowedOrigins = [
+  'https://fynx-landingpage.vercel.app',
+  'https://www.getfynxx.in'
+];
+
+// CORS options
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
 
 app.use(express.json());
-app.use(cors({
-  origin: "https://fynx-landingpage.vercel.app"
-}));
+app.use(cors(corsOptions));
 
 
 
