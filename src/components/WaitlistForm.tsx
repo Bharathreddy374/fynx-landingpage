@@ -13,6 +13,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export interface WaitlistSubmission {
   name: string;
   email: string;
+  phno: string | null;
   platform: 'instagram' | 'youtube' | 'both' | '';
   instagram_username?: string | null;
   instagram_followers?: string | null;
@@ -34,6 +35,7 @@ export const WaitlistForm = () => {
   const [formData, setFormData] = useState<WaitlistSubmission>({
     name: '',
     email: '',
+    phno: '',
     platform: '',
     instagram_followers: '',
     youtube_subscribers: '',
@@ -460,6 +462,20 @@ className="btn-glow font-body font-semibold px-8 py-3 text-foreground hover:text
                     />
                   </div>
                 </div>
+                  <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+                  <div>
+                    <label className="font-body text-sm font-medium text-foreground mb-2 block">
+                      Phone Number
+                    </label>
+                    <Input
+                      type="text"
+                      placeholder="9876543210"
+                      value={formData.phno }
+                      onChange={(e) => handleInputChange('phno', e.target.value)}
+                      className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+                    />
+                  </div>
+                </div>
 
                 {/* Platform Selection */}
                 <div>
@@ -516,7 +532,7 @@ className="btn-glow font-body font-semibold px-8 py-3 text-foreground hover:text
             {[
               { icon: '⚡', title: 'Early Access', desc: 'Be first to use FYNX' },
               { icon: '🎁', title: 'Exclusive Perks', desc: 'Special launch bonuses' },
-              { icon: '�', title: 'VIP Support', desc: 'Priority customer service' }
+              { icon: '💎', title: 'VIP Support', desc: 'Priority customer service' }
             ].map((benefit, index) => (
               <div key={index} className="glass-effect p-6 rounded-lg text-center">
                 <div className="text-3xl mb-3">{benefit.icon}</div>

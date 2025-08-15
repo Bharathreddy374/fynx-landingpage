@@ -8,6 +8,9 @@ dotenv.config();
 const app = express();
 const port = 3001;
 const allowedOrigins = [
+  'http://localhost:3000',
+    'http://localhost:8080',
+
   'https://fynx-landingpage.vercel.app',
   'https://www.getfynxx.in'
 ];
@@ -15,19 +18,23 @@ const allowedOrigins = [
 // CORS options
 const corsOptions = {
   origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    console.log("Request Origin:", origin); // See who is calling
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.log("❌ Blocked by CORS:", origin);
       callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200
 };
 
 app.use(express.json());
+
+// This single line handles all CORS and preflight requests
 app.use(cors(corsOptions));
-
-
-
 
 const { Pool } = pg;
 const pool = new Pool({
@@ -46,11 +53,11 @@ app.get('/api/waitlist/count', async (req, res) => {
   }
 });
 
-
 app.post('/api/waitlist', async (req, res) => {
   const {
     name,
     email,
+    phno,
     platform,
     instagram_username,
     instagram_followers,
@@ -75,13 +82,14 @@ app.post('/api/waitlist', async (req, res) => {
     }
 
     const insertQuery = `
-      INSERT INTO waitlist (name, email, platform, instagram_username, instagram_followers, youtube_channel_name, youtube_subscribers)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO waitlist (name, email, phno, platform, instagram_username, instagram_followers, youtube_channel_name, youtube_subscribers)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *;
     `;
     const insertValues = [
       name,
       email,
+      phno,
       platform,
       instagram_username || null,
       instagram_followers ? parseInt(instagram_followers.toString().replace(/,/g, ''), 10) : null,
