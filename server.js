@@ -14,6 +14,7 @@ const allowedOrigins = new Set([
   'http://localhost:8080',
   'https://fynx-landingpage.vercel.app',
   'https://www.getfynxx.in'
+  'https://getfynxx.in'
 ]);
 
 const corsOptions = {
